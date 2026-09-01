@@ -1,0 +1,224 @@
+\documentclass[letterpaper,12pt]{article}
+
+\usepackage[letterpaper,margin=2.2cm,top=2.1cm,bottom=2.0cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[american,RPvoltages,siunitx]{circuitikz}
+\usetikzlibrary{arrows.meta,calc}
+
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{42pt}
+\setlist[enumerate]{leftmargin=*,itemsep=1.1em}
+
+\newcommand{\teclogo}{%
+  \IfFileExists{../presentations/figures/logo.png}{%
+    \includegraphics[height=1.05cm]{../presentations/figures/logo.png}%
+  }{%
+    \IfFileExists{presentations/figures/logo.png}{%
+      \includegraphics[height=1.05cm]{presentations/figures/logo.png}%
+    }{\textbf{TEC}}%
+  }%
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\large Electricidad I}
+\rhead{\teclogo}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\fuentehorizontal}[7]{%
+  % #1: x izquierda, #2: y, #3: x derecha, #4: etiqueta, #5: signo izq., #6: signo der., #7: posición de etiqueta
+  \draw (#1,#2) -- ($ (#1,#2)!0.43!(#3,#2) $);
+  \draw ($ (#1,#2)!0.57!(#3,#2) $) -- (#3,#2);
+  \path let \p1=($ (#1,#2)!0.5!(#3,#2) $) in coordinate (src) at (\x1,\y1);
+  \draw (src) circle (0.34);
+  \node at ($ (src)+(-0.14,0) $) {#5};
+  \node at ($ (src)+(0.14,0) $) {#6};
+  \node[#7] at (src) {#4};
+}
+
+\begin{document}
+
+\begin{center}
+    {\Huge\bfseries Avance 1: Leyes básicas}
+\end{center}
+
+\begin{enumerate}
+    \item Utilizando solamente LVK y LCK obtenga $V_x$ e $i_x$. Indique si la fuente $i_x$ consume o entrega potencia.
+
+    \begin{center}
+    \begin{circuitikz}[scale=0.85,transform shape]
+        \draw (0,0) -- (7,0);
+        \draw (0,0) to[V,l=\SI{4}{\volt}] (0,2);
+        \draw (0,2) to[R,l=\SI{8}{\ohm},i>^=\SI{200}{\milli\ampere}] (2.4,2)
+              to[R,l=\SI{4}{\ohm}] (4.8,2) -- (7,2);
+        \draw (2.4,2) to[R,l=\SI{2}{\ohm}] (2.4,0);
+        \draw (4.8,2) to[R,l=\SI{3}{\ohm}] (4.8,0);
+        \draw (7,0) to[I] (7,2);
+        \node[above] at (7.35,1.50) {$i_x$};
+        \node[right] at (7.80,1.68) {$+$};
+        \node[right] at (7.80,1.00) {$V_x$};
+        \node[right] at (7.80,0.25) {$-$};
+    \end{circuitikz}
+    \end{center}
+
+    \vspace{0.35cm}
+    \noindent\hspace*{-\leftmargin}Respuesta:\\
+    \noindent\hspace*{-\leftmargin}\textbf{$V_x=6{,}4\,\mathrm{V}$, $i_x=3{,}133\,\mathrm{A}$}
+    \vspace{0.25cm}
+
+    \item Para el circuito de la siguiente figura, plantee la ecuación de la supermalla y encuentre los valores de $i_1$, $i_2$, $i_3$, $i_4$, $i_x$.
+
+    \begin{center}
+    \begin{circuitikz}[scale=0.82,transform shape]
+        \coordinate (LT) at (0,4);
+        \coordinate (RT) at (5,4);
+        \coordinate (LM) at (0,2.45);
+        \coordinate (CM) at (2.5,2.45);
+        \coordinate (RM) at (5,2.45);
+        \coordinate (LL) at (0,1.05);
+        \coordinate (CB) at (2.5,1.05);
+        \coordinate (RB) at (5,1.05);
+        \coordinate (LB) at (0,-0.55);
+        \coordinate (RBB) at (5,-0.55);
+
+        \fuentehorizontal{0}{4}{5}{\SI{4}{\volt}}{$-$}{$+$}{above=0.35cm}
+        \draw (LT) -- (LM);
+        \draw (RT) -- (RM);
+        \draw (LM) to[R,l=\SI{1}{\ohm}] (CM);
+        \draw (RM) to[I] (CM);
+        \node[above] at (3.75,2.70) {\SI{2}{\ampere}};
+        \draw (LM) to[I] (LL);
+        \node[left] at (-0.30,1.75) {\SI{4}{\ampere}};
+        \draw (LL) to[R,l_=\SI{6}{\ohm}] (CB);
+        \draw (CB) to[R,l_=\SI{8}{\ohm}] (RB);
+        \draw (RM) to[R,l=\SI{10}{\ohm}] (RB);
+        \draw (CM) -- (CB);
+        \draw[-{Latex[length=2mm]}] (2.5,1.45) -- (2.5,2.05) node[midway,right] {$i_x$};
+        \draw (LL) -- (LB);
+        \draw (RB) -- (RBB);
+        \fuentehorizontal{0}{-0.55}{5}{\SI{8}{\volt}}{$+$}{$-$}{below=0.35cm}
+
+        \draw[blue,-{Latex[length=2mm]}] (2.55,3.40) arc[start angle=110,end angle=-220,radius=0.42];
+        \node[blue] at (2.45,3.25) {$i_1$};
+        \draw[blue,-{Latex[length=2mm]}] (1.35,1.95) arc[start angle=110,end angle=-220,radius=0.42];
+        \node[blue] at (1.25,1.80) {$i_2$};
+        \draw[blue,-{Latex[length=2mm]}] (3.65,1.95) arc[start angle=110,end angle=-220,radius=0.42];
+        \node[blue] at (3.55,1.80) {$i_3$};
+        \draw[blue,-{Latex[length=2mm]}] (2.55,0.35) arc[start angle=110,end angle=-220,radius=0.42];
+        \node[blue] at (2.45,0.20) {$i_4$};
+    \end{circuitikz}
+    \end{center}
+
+    \vspace{0.35cm}
+    \noindent\hspace*{-\leftmargin}Respuesta:\\
+    \noindent\hspace*{-\leftmargin}\textbf{$i_1-i_2+18i_3-8i_4=4$, $i_1=1.228A, i_2=-4A, i_3=-0.772A, i_4=-1.584A, i_x=3.228A$}
+    \vspace{0.25cm}
+
+    \item Utilizando análisis nodal obtenga $i_x$
+
+    \begin{center}
+    \begin{circuitikz}[scale=0.78,transform shape]
+        \draw (0,0) node[ground]{} to[V,l=\SI{5}{\volt}] (0,4) -- (2,4);
+        \draw (2,4) to[R,l=\SI{10}{\kilo\ohm}] (2,2);
+        \draw (2,2) to[R,l_=\SI{10}{\kilo\ohm}] (2,0) node[ground]{};
+        \node[left] at (1.55,3.55) {$+$};
+        \node[left] at (1.45,3.00) {$V_x$};
+        \node[left] at (1.55,2.35) {$-$};
+
+        \draw (2,2) -- (3.25,2);
+        \draw[-{Latex[length=2mm]}] (2.25,2.18) -- (2.85,2.18) node[midway,above] {$i_x$};
+        \draw (3.75,2) -- (5,2);
+        \draw (3.5,2) circle (0.30);
+        \node at (3.35,2) {$+$};
+        \node at (3.65,2) {$-$};
+        \node[below=0.28cm] at (3.5,2) {\SI{0.7}{\volt}};
+
+        \draw (5,2) to[R,l=\SI{2}{\kilo\ohm}] (5,0) node[ground]{};
+        \draw (7,0) node[ground]{} to[V,l_=\SI{30}{\volt}] (7,4) -- (5,4);
+        \draw (5,4) to[cI,l=$5i_x$] (5,2);
+    \end{circuitikz}
+    \end{center}
+
+    \vspace{0.35cm}
+    \noindent\hspace*{-\leftmargin}Respuesta:\\
+    \noindent\hspace*{-\leftmargin}\textbf{$i_x=105.88\,\mathrm{\mu A}$}
+    \vspace{0.25cm}
+
+    \item Para el circuito de la siguiente figura, cual es el valor de $R_{TH}$ entre las terminales $a$ y $b$, en $\Omega$?
+
+    \begin{center}
+    \begin{circuitikz}[scale=0.90,transform shape]
+        \draw (0,0) -- (6.4,0);
+        \draw (0,0) to[cI] (0,2);
+        \node[left] at (-0.10,1.00) {$0{,}2v_x$};
+        \draw (0,2) -- (1.6,2);
+        \draw (1.6,2) to[R,l_=\SI{6}{\ohm}] (1.6,0);
+        \draw (1.6,2) to[R,l=\SI{4}{\ohm}] (4.2,2);
+        \draw (4.2,2) to[R,l=\SI{8}{\ohm}] (6.4,2) node[ocirc,label=right:$a$]{};
+        \draw (4.2,2) to[R,l=\SI{2}{\ohm}] (4.2,0);
+        \node[left] at (4.00,1.65) {$+$};
+        \node[left] at (3.90,1.00) {$v_x$};
+        \node[left] at (4.00,0.35) {$-$};
+        \node[ocirc,label=right:$b$] at (6.4,0) {};
+
+        \draw (1.6,2) -- (1.6,3.25);
+        \draw (4.2,2) -- (4.2,3.25);
+        \fuentehorizontal{1.6}{3.25}{4.2}{\SI{8}{\volt}}{$+$}{$-$}{above=0.35cm}
+    \end{circuitikz}
+    \end{center}
+
+    \vspace{0.35cm}
+    \noindent\hspace*{-\leftmargin}Respuesta:\\
+    \noindent\hspace*{-\leftmargin}\textbf{$R_{TH}=10.143\,\mathrm{\Omega}$}
+    \vspace{0.25cm}
+
+    \item Para la siguiente figura, utilizando análisis de mallas, obtenga $i_x$.
+
+    \begin{center}
+    \begin{circuitikz}[scale=0.88,transform shape]
+        \coordinate (LT) at (0,4);
+        \coordinate (RT) at (5,4);
+        \coordinate (LM) at (0,2.45);
+        \coordinate (CM) at (2.5,2.45);
+        \coordinate (RM) at (5,2.45);
+        \coordinate (LL) at (0,1.05);
+        \coordinate (CB) at (2.5,1.05);
+        \coordinate (RB) at (5,1.05);
+        \coordinate (LB) at (0,-0.55);
+        \coordinate (RBB) at (5,-0.55);
+
+        \fuentehorizontal{0}{4}{5}{\SI{8}{\volt}}{$-$}{$+$}{above=0.35cm}
+        \draw (LT) -- (LM);
+        \draw (RT) -- (RM);
+        \draw (LM) to[R,l=\SI{4}{\ohm}] (CM);
+        \draw (RM) to[I] (CM);
+        \node[above] at (3.75,2.70) {\SI{2}{\ampere}};
+        \draw (LL) to[I] (LM);
+        \node[left] at (-0.30,1.75) {\SI{2}{\ampere}};
+        \draw (LL) to[R,l_=\SI{6}{\ohm}] (CB);
+        \draw (CB) to[R,l_=\SI{8}{\ohm}] (RB);
+        \draw (RM) to[R,l=\SI{10}{\ohm}] (RB);
+        \draw (CM) -- (CB);
+        \draw[-{Latex[length=2mm]}] (2.5,2.05) -- (2.5,1.45) node[midway,right] {$i_x$};
+        \draw (LL) -- (LB);
+        \draw (RB) -- (RBB);
+        \fuentehorizontal{0}{-0.55}{5}{\SI{10}{\volt}}{$-$}{$+$}{below=0.35cm}
+    \end{circuitikz}
+    \end{center}
+
+    \vspace{0.35cm}
+    \noindent\hspace*{-\leftmargin}Respuesta:\\
+    \noindent\hspace*{-\leftmargin}\textbf{$i_x=1.475\,\mathrm{A}$}
+    \vspace{0.25cm}
+
+\end{enumerate}
+
+\end{document}
