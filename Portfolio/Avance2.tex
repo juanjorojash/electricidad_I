@@ -1,0 +1,226 @@
+\documentclass[letterpaper,12pt]{article}
+
+\usepackage[letterpaper,margin=2.2cm,top=2.1cm,bottom=2.0cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage[american,RPvoltages,siunitx]{circuitikz}
+\usetikzlibrary{arrows.meta,calc}
+
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{42pt}
+\setlist[enumerate]{leftmargin=*,itemsep=1.1em}
+
+\newcommand{\teclogo}{%
+  \IfFileExists{../presentations/figures/logo.png}{%
+    \includegraphics[height=1.05cm]{../presentations/figures/logo.png}%
+  }{%
+    \IfFileExists{presentations/figures/logo.png}{%
+      \includegraphics[height=1.05cm]{presentations/figures/logo.png}%
+    }{\textbf{TEC}}%
+  }%
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\large Electricidad I}
+\rhead{\teclogo}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\fuentehorizontal}[7]{%
+  % #1: x izquierda, #2: y, #3: x derecha, #4: etiqueta, #5: signo izq., #6: signo der., #7: posición de etiqueta
+  \draw (#1,#2) -- ($ (#1,#2)!0.43!(#3,#2) $);
+  \draw ($ (#1,#2)!0.57!(#3,#2) $) -- (#3,#2);
+  \path let \p1=($ (#1,#2)!0.5!(#3,#2) $) in coordinate (src) at (\x1,\y1);
+  \draw (src) circle (0.34);
+  \node at ($ (src)+(-0.14,0) $) {#5};
+  \node at ($ (src)+(0.14,0) $) {#6};
+  \node[#7] at (src) {#4};
+}
+
+\begin{document}
+
+\begin{center}
+    {\Huge\bfseries Avance 2: Bobinas, Condensadores y Laplace}
+\end{center}
+
+\begin{enumerate}
+    \item Halle $i_1(t)$ e $i_2(t)$ para $t>0$ en el circuito de la figura.
+
+    \begin{figure}[H]
+        \centering
+        \begin{circuitikz}
+            % Cinco ramas conectadas entre los mismos nodos superior e inferior.
+            \draw (0,0) to[I,l_=\SI{5}{\ampere}] (0,4) -- (10,4);
+            \draw (0,0) -- (10,0);
+            \draw (2.5,4) to[R,l=\SI{6}{\ohm}] (2.5,0);
+            \draw (5,4) to[spst] (5,0);
+            \node[left] at (4.8,2) {$t=0$};
+            \draw (7.5,4) to[R,l_=\SI{5}{\ohm}] (7.5,2)
+                            to[L,l_=\SI{2.5}{\henry}] (7.5,0);
+            \draw (10,4) to[R,l=\SI{20}{\ohm}] (10,2)
+                         to[L,l=\SI{4}{\henry}] (10,0);
+            \draw[-{Latex[length=2mm]}] (7.85,3.95) -- (7.85,3.40)
+                node[midway,right] {$i_1$};
+            \draw[-{Latex[length=2mm]}] (10.35,3.95) -- (10.35,3.40)
+                node[midway,right] {$i_2$};
+        \end{circuitikz}
+        \caption{Circuito para el cálculo de $i_1(t)$ e $i_2(t)$.}
+        \label{fig:avance2-circuito}
+    \end{figure}
+
+    \textbf{Respuesta:}
+    \[
+    \begin{aligned}
+        i_1(t) &= 2{,}4e^{-2t}\,\mathrm{A},\\
+        i_2(t) &= 0{,}6e^{-5t}\,\mathrm{A}.
+    \end{aligned}
+    \]
+
+    \item El capacitor de la figura se encuentra cargado con $v_c(0)=\SI{8}{\volt}$. Escriba las expresiones matemáticas para $v_c$ e $i_x$ para todo tiempo $t>0$.
+
+    \begin{figure}[H]
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) node[ocirc]{} node[left]{$+\SI{10}{\volt}$}
+                to[R,l=\SI{2}{\kilo\ohm}] (3,0)
+                -- (4,0) to[R,l=\SI{6.8}{\kilo\ohm}] (6.5,0)
+                to[spst] (8,0)
+                to[C,l=\SI{30}{\micro\farad}] (10.5,0)
+                -- (11.4,0) node[ocirc]{} node[right]{$+\SI{15}{\volt}$};
+            \draw (3,0) node[circ]{} -- (3,-0.7) node[ground]{};
+            \draw[-{Latex[length=2mm]}] (3.95,0.30) -- (3.35,0.30)
+                node[midway,above] {$i_x$};
+            \node[above] at (7.25,0.35) {$t=0{,}4$};
+            \node at (8.75,-0.55) {$+$};
+            \node at (9.75,-0.55) {$-$};
+            \node at (9.25,-0.85) {$v_c$};
+        \end{circuitikz}
+        \caption{Circuito para el cálculo de $v_c$ e $i_x$.}
+        \label{fig:avance2-capacitor}
+    \end{figure}
+
+    \textbf{Respuesta:}
+    \[
+    v_c(t)=
+    \begin{cases}
+        8\,\mathrm{V}, & 0<t<0{,}4,\\
+        (163e^{-4{,}96t}-15)\,\mathrm{V}, & t\ge 0{,}4.
+    \end{cases}
+    \]
+    \[
+    i_x(t)=
+    \begin{cases}
+        0\,\mathrm{mA}, & 0<t<0{,}4,\\
+        24e^{-4{,}96t}\,\mathrm{mA}, & t\ge 0{,}4.
+    \end{cases}
+    \]
+
+    \item En el circuito RLC en paralelo de la figura, halle $v(t)$ para $t>0$.
+
+    \begin{figure}[H]
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) to[I,l_=\SI{4.5}{\ampere}] (0,4)
+                -- (1.4,4) to[spst] (3.1,4) -- (9,4);
+            \draw (0,0) -- (9,0);
+            \draw (3.7,4) to[R,l=\SI{20}{\ohm}] (3.7,0);
+            \draw (6.2,4) to[L,l=\SI{10}{\henry}] (6.2,0);
+            \draw (9,4) to[C,l=\SI{4}{\milli\farad}] (9,0);
+            \node[above] at (2.25,4.35) {$t=0$};
+            \node at (8.2,2.75) {$+$};
+            \node at (8.2,2) {$v(t)$};
+            \node at (8.2,1.25) {$-$};
+        \end{circuitikz}
+        \caption{Circuito RLC en paralelo.}
+        \label{fig:avance2-rlc-paralelo}
+    \end{figure}
+
+    \textbf{Respuesta:}
+    \[
+        v(t)=\bigl(-150e^{-2{,}5t}+150e^{-10t}\bigr)\,\mathrm{V},
+        \qquad t>0.
+    \]
+
+    \item Halle la corriente $i(t)$ para $t<0$ y $t>0$ en el circuito de la figura.
+
+    \begin{figure}[H]
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) to[V,l_=\SI{40}{\volt}] (0,3.6)
+                to[R,l=\SI{2}{\ohm}] (2.5,3.6)
+                to[spst] (4,3.6)
+                to[R,l=\SI{4}{\ohm}] (6.5,3.6)
+                -- (8.8,3.6);
+            \draw (0,0) -- (8.8,0);
+            \draw (4,3.6) to[R,l_=\SI{12}{\ohm}] (4,0);
+            \draw (6.5,3.6) to[R,l_=\SI{16}{\ohm}] (6.5,0);
+            \draw (8.8,3.6) to[L,l=\SI{2}{\henry}] (8.8,0);
+            \node[above] at (3.2,4) {$t=0$};
+            \draw[-{Latex[length=2mm]}] (9.2,3.5) -- (9.2,2.9)
+                node[midway,right] {$i(t)$};
+        \end{circuitikz}
+        \caption{Circuito RL para el cálculo de $i(t)$.}
+        \label{fig:avance2-rl-conmutado}
+    \end{figure}
+
+    \textbf{Para $t<0$:}
+    \[
+        i(t)=6\,\mathrm{A}.
+    \]
+
+    \textbf{Para $t>0$:}
+    \[
+        i(t)=6e^{-4t}\,\mathrm{A}.
+    \]
+
+    \item Sea $v_C(0)=\SI{60}{\volt}$. Determine $v_C(t)$, $v_x(t)$ e $i_o(t)$ para $t\geq 0$ en el circuito de la figura.
+
+    \begin{figure}[H]
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) to[R,l_=\SI{12}{\ohm}] (0,3.5)
+                -- (3,3.5) to[R,l=\SI{8}{\ohm}] (7,3.5)
+                to[C,l_=$\frac{1}{3}\,\mathrm{F}$] (7,0) -- (0,0);
+            \draw (3,3.5) to[R,l_=\SI{6}{\ohm}] (3,0);
+            \draw[-{Latex[length=2mm]}] (3.5,3.95) -- (4.25,3.95)
+                node[midway,above] {$i_o$};
+            \node at (3.65,2.7) {$+$};
+            \node at (3.65,1.75) {$v_x$};
+            \node at (3.65,0.8) {$-$};
+            \node at (7.65,2.7) {$+$};
+            \node at (7.65,1.75) {$v_C$};
+            \node at (7.65,0.8) {$-$};
+        \end{circuitikz}
+        \caption{Circuito RC para el cálculo de $v_C$, $v_x$ e $i_o$.}
+        \label{fig:avance2-rc-paralelo}
+    \end{figure}
+
+    \textbf{Respuesta para $v_C$:}
+    \[
+        v_C(t)=60e^{-0{,}25t}\,\mathrm{V},\qquad t\geq 0.
+    \]
+
+    \textbf{Respuesta para $v_x$:}
+    \[
+        v_x(t)=20e^{-0{,}25t}\,\mathrm{V},\qquad t\geq 0.
+    \]
+
+    \textbf{Respuesta para $i_o$:}
+    \[
+        i_o(t)=-5e^{-0{,}25t}\,\mathrm{A},\qquad t\geq 0.
+    \]
+\end{enumerate}
+
+
+
+
+
+\end{document}
