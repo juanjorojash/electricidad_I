@@ -23,7 +23,7 @@
 
 \begin{frame}{Circuito RC: respuesta natural}
     \begin{columns}[onlytextwidth]
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.56\textwidth}
         \centering
         \only<1>{
             \begin{circuitikz}[scale=0.8]\draw
@@ -62,7 +62,8 @@
         \end{circuitikz}
         }
     \end{column}
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.40\textwidth}
+        \small
         \only<1>{
         Después de mucho tiempo...
         \begin{equation*}
@@ -225,13 +226,13 @@
     }
     \only<13-15>{
         \onslide<13-15>{
-        $\tau \rightarrow$ es la pendiente en $t(0)$, ver linea azul\\
+        La tangente inicial corta el eje del tiempo en $t_0+\tau$, ver línea azul\\
         }
         
         \vspace{0.5cm}
                 
         \onslide<14-15>{
-        $\tau \rightarrow$ es el tiempo que se requiere para que el voltaje se reduzca en un $36.8\%$, ver linea roja
+        $\tau \rightarrow$ es el tiempo que se requiere para que el voltaje se reduzca a un $36.8\%$ de su valor original, ver linea roja
         }
                 
         \vspace{0.5cm}
@@ -246,7 +247,7 @@
 
 \begin{frame}{Circuito RL: respuesta natural}
     \begin{columns}[onlytextwidth]
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.56\textwidth}
         \centering
         \only<1>{
             \begin{circuitikz}[scale=0.8]\draw
@@ -265,7 +266,7 @@
                 to[R,l_=$R_f$]
             (-2,0)
             ;
-            \draw[white] (-5,-1) rectangle (5,5)
+            \path[use as bounding box] (-4.8,-0.6) rectangle (4.2,4.6)
             ;
         \end{circuitikz}
         }
@@ -285,12 +286,13 @@
                 to[R,l_=$R_f$]
             (-2,0)
             ;
-            \draw[white] (-5,-1) rectangle (5,5)
+            \path[use as bounding box] (-4.8,-0.6) rectangle (4.2,4.6)
             ;
         \end{circuitikz}
         }
     \end{column}
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.40\textwidth}
+        \small
         \only<1>{
         Después de mucho tiempo...
         \begin{equation*}
@@ -449,7 +451,7 @@
     }
     \only<13-15>{
         \onslide<13-15>{
-        $\tau \rightarrow$ es la pendiente en $t(0)$, ver linea azul\\
+        La tangente inicial corta el eje del tiempo en $t_0+\tau$, ver línea azul\\
         }
         
         \vspace{0.5cm}

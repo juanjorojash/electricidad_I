@@ -8,6 +8,8 @@
 \input{shared/postamble}
 
 \begin{frame}{Impendacia}
+    \setlength{\abovedisplayskip}{5pt}
+    \setlength{\belowdisplayskip}{5pt}
     \begin{columns}[onlytextwidth]
     \begin{column}{0.5\textwidth}
         \begin{center}
@@ -17,11 +19,12 @@
             \bm{Z} = R+jX = |\bm{Z}\,|\angle\theta
         \end{gather*}
         \begin{align*}
-            |\bm{Z}\,|&=\sqrt{R^2+X^2} & \theta &=\arctan\left(\frac{X}{R}\right)\\
+            |\bm{Z}\,|&=\sqrt{R^2+X^2} & \theta &=\arctan\left(\dfrac{X}{R}\right)\\
             R &= |\bm{Z}\,|\cos\theta & X &= |\bm{Z}\,|\sin\theta
         \end{align*}
         \end{center}
         donde $R$ es la resistencia y $X$ es la reactancia, ambas en ohms ($\Omega$)
+
     \end{column}
     \begin{column}{0.5\textwidth}
         \begin{center}
@@ -37,6 +40,10 @@
         \end{center}
     \end{column}
     \end{columns}
+    \par\smallskip
+    {\fontsize{6}{7}\selectfont
+    Ajustar el ángulo según el cuadrante: si $R<0$, sumar $180^\circ$ cuando $X\geq0$ o restar $180^\circ$ cuando $X<0$.\par
+    }
 \end{frame}
 
 \begin{frame}{Admitancia}
@@ -259,7 +266,7 @@
         \begin{gather*}
             \bm{Z} = \frac{\bm{v}}{\bm{i}}\\[2pt]
             \bm{Z} = 0+\frac{1}{j\omega C} = \frac{1}{\omega C} \angle\SI{-90}{\degree}\\[2pt]
-            X_C = \frac{1}{\omega C}
+            X_C = -\frac{1}{\omega C}
         \end{gather*}
     \end{column}
     \end{columns}

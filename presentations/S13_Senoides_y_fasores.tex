@@ -279,7 +279,9 @@
 \end{frame}
 
 \begin{frame}{Notación fasorial}
-        \begin{columns}[onlytextwidth]
+        \setlength{\abovedisplayskip}{5pt}
+    \setlength{\belowdisplayskip}{5pt}
+    \begin{columns}[onlytextwidth]
         \begin{column}{0.4\textwidth}
             \begin{tikzpicture}
             \def \A {2};
@@ -298,15 +300,20 @@
         \end{column}
         \begin{column}{0.6\textwidth}
             \begin{gather*}
-                \onslide<1->{\bm{z}=r\,\angle\theta}\\[4pt]
-                \onslide<2->{x = r\,\cos\theta}\\[4pt]
-                \onslide<3->{y = r\,\sin\theta}\\[4pt]
-                \onslide<4->{\bm{z} = x + \mathrm{j}y}\\[4pt]
-                \onslide<5->{r = \sqrt{x^2 + y^2}}\\[4pt]
-                \onslide<6->{\theta = \arctan\dfrac{y}{x}}
+                \onslide<1->{\bm{z}=r\,\angle\theta}\\[2pt]
+                \onslide<2->{x = r\,\cos\theta}\\[2pt]
+                \onslide<3->{y = r\,\sin\theta}\\[2pt]
+                \onslide<4->{\bm{z} = x + \mathrm{j}y}\\[2pt]
+                \onslide<5->{r = \sqrt{x^2 + y^2}}\\[2pt]
+                \onslide<6->{\theta = \arctan\left(\dfrac{y}{x}\right)}
             \end{gather*}
+
         \end{column}
-        \end{columns} 
+        \end{columns}
+    \par\smallskip
+    \onslide<6->{\fontsize{6}{7}\selectfont
+    Ajustar el ángulo según el cuadrante: si $x<0$, sumar $180^\circ$ cuando $y\geq0$ o restar $180^\circ$ cuando $y<0$.\par
+    }
 \end{frame}
 
 \begin{frame}{Operaciones con fasores}
@@ -323,7 +330,7 @@
     }\onslide<3->
     {Resta:
         \begin{equation*}
-            \bm{z_1}+\bm{z_2} = (x_1 - x_2) + \mathrm{j}(y_1-y_2)
+            \bm{z_1}-\bm{z_2} = (x_1 - x_2) + \mathrm{j}(y_1-y_2)
         \end{equation*}
     }\onslide<4->
     {Multiplicación:

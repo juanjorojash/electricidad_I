@@ -32,15 +32,15 @@
             (0,0)
             ;
             \draw<2-4> 
-                (2,4)
-                    to[open,v>=$v_R$,voltage shift=1]
-                (2,0)
-                (4,4)
-                    to[open,v=$v_L$,voltage shift=1]
-                (4,0)
+                (1.1,4)
+                    to[open,v>=$v_R$]
+                (1.1,0)
+                (3.4,4)
+                    to[open,v=$v_L$]
+                (3.4,0)
             ;
             \node [right] at (-1,-1) {$i_f(t)=I_0u(t_0-t)+Iu(t-t_0)$};
-            \draw [white] (-1.3,-2) rectangle (5.3,6.2);
+            \path[use as bounding box] (-1.3,-2) rectangle (5.3,6.2);
         \end{circuitikz}
         }
     \end{column}
@@ -103,12 +103,12 @@
             {\onslide<7->
             {tenemos que:
             \begin{equation*}
-                \ln(i-I)\,\bigg|_{i(t_0)}^{i(t)} = -\frac{R}{L}t\,\bigg|_{t_0}^{t}
+                \ln|i-I|\,\bigg|_{i(t_0)}^{i(t)} = -\frac{R}{L}t\,\bigg|_{t_0}^{t}
             \end{equation*}
             }\onslide<8->
             {evaluando:
             \begin{equation*}
-                \dfrac{\ln(i(t)-I)}{\ln (i(t_0)-I)} = -\frac{R}{L}(t - t_0)
+                \ln\left|\dfrac{i(t)-I}{i(t_0)-I}\right| = -\frac{R}{L}(t - t_0)
             \end{equation*}
             }
         }\only<9-10>
@@ -158,7 +158,7 @@
                 \draw<16-> [decorate,decoration={brace,amplitude=5pt},xshift=0pt,yshift=-7pt]
                 (6.4,0) -- (3.5,0) node [black,midway,below,align=center,yshift=-0.1cm] {\footnotesize Respuesta \\ \footnotesize forzada}
                 ;
-                \draw [white](0,-2) rectangle (7,0.5);
+                \path[use as bounding box](0,-2) rectangle (7,0.5);
             \end{tikzpicture} 
             }
         }\only<17->
@@ -190,13 +190,14 @@
             (2,4)
                 to [short]
             (4,4)
-                to[L,l=\SI{1}{\henry},i>^=$i$,v=$v$]
+                to[L,l=\SI{1}{\henry},i>^=$i$]
             (4,0) 
                 to[short]
             (0,0)
             ;
+            \draw (3.5,4) to[open,v=$v$] (3.5,0);
             \node [right] at (-1.7,-1) {$i_f(t)= \SI{5}{\ampere} [1 + u(t-1) - u(t-4)]$};
-            \draw [white] (-1.7,-2) rectangle (5.7,6.2);
+            \path[use as bounding box] (-1.7,-2) rectangle (5.7,6.2);
         \end{circuitikz}
         }
     \end{column}
@@ -267,7 +268,7 @@
             \end{equation*}
             }
         }\only<12-13>
-            {\onslide<12->
+            {\small\onslide<12->
             {Finalmente para todo $t\,$ tenemos que:
             \begin{equation*}
                 i(t) =
