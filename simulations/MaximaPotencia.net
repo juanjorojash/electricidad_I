@@ -1,0 +1,14 @@
+* C:\repositories\juanjorojash\electricidad_I\simulations\MaximaPotencia.asc
+V1 N001 0 8
+R1 o N001 3k
+R2 0 o 1k
+R3 a N002 10k
+R4 0 a 40k
+R5 a 0 {Rload}
+B1 0 N002 V=120*V(o)
+.op
+.step param Rload 0.1K 20K 0.1K
+.meas Pmax max(V(a)*I(R5))
+.meas R when (V(a)*I(R5)) = 1.152
+.backanno
+.end
